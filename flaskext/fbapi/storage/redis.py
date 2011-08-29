@@ -15,9 +15,9 @@ class AccessTokenStore(object):
 
     def __init__(self, app):
         # let's use app only to get cofig and not store it
-        self.config_redis_host = app.get("FBAPI_REDIS_HOST", 'localhost')
-        self.config_redis_port = app.get("FBAPI_REDIS_PORT", 6379)
-        self.config_redis_db = app.get("FBAPI_REDIS_DB", 1)
+        self.config_redis_host = app.config.get("FBAPI_REDIS_HOST", 'localhost')
+        self.config_redis_port = app.config.get("FBAPI_REDIS_PORT", 6379)
+        self.config_redis_db = app.config.get("FBAPI_REDIS_DB", 1)
 
     def open(self):
         ctx = _request_ctx_stack.top
