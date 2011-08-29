@@ -119,7 +119,6 @@ def oauth_redir_render():
     return render_template(u'oauth_redir.html', fb_oauth_uri=oauth_login_url())
 
 
-
 def retry_on_exception(func, retries):
     """
     decorator to retry existing function on any exception
