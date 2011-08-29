@@ -21,21 +21,20 @@ class FbApi(object):
 
 
     def init_app(self, app):
-        self.app = app
-        self.app.config.setdefault('FBAPI_ACCESS_TOKEN_STORAGE', redis.AccessTokenStore)
-        assert self.app.config.has_key('FBAPI_SCOPE')
-        assert self.app.config.has_key('FBAPI_APP_URI')
-        assert self.app.config.has_key('FBAPI_APP_ID')
-        assert self.app.config.has_key('FBAPI_APP_SECRET')
+        app.config.setdefault('FBAPI_ACCESS_TOKEN_STORAGE', redis.AccessTokenStore)
+        assert app.config.has_key('FBAPI_SCOPE')
+        assert app.config.has_key('FBAPI_APP_URI')
+        assert app.config.has_key('FBAPI_APP_ID')
+        assert app.config.has_key('FBAPI_APP_SECRET')
         
-        self.initialize_access_token_store()
+        self.initialize_access_token_store(app)
 
-        self.app.teardown_request(self.teardown_request)
-        self.app.before_request(self.before_request)
+        app.teardown_request(self.teardown_request)
+        app.before_request(self.before_request)
         
 
-    def initialize_access_token_store(self):
-        self.token_storage = self.app.config['FBAPI_ACCESS_TOKEN_STORAGE'](self.app)
+    def initialize_access_token_store(self, app):
+        self.token_storage = app.config['FBAPI_ACCESS_TOKEN_STORAGE'](self.app)
 
 
     def before_request(self):
