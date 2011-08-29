@@ -25,7 +25,7 @@ class AccessTokenStore(object):
     
     def close(self):
         ctx = _request_ctx_stack.top
-        ctx.redis_fb.close()
+        ctx.redis_fb = None
     
     def _get_db(self):
         ctx = _request_ctx_stack.top
