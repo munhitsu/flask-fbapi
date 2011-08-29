@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='Flask-FBAPI',
-    version='0.1.5-alpha',
+    version='0.1.6',
     url='http://github.com/munhitsu/flask-fbapi',
     license='BSD',
     author='Mateusz Lapsa-Malawski',
