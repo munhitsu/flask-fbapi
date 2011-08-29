@@ -1,4 +1,4 @@
-from fbapi.api import parse_signed_request, is_valid_signed_request, is_deauthorize_signed_request, fbapi_auth, oauth_login_url
+from flaskext.fbapi.api import parse_signed_request, is_valid_signed_request, is_deauthorize_signed_request, fbapi_auth, oauth_login_url
 from functools import wraps
 from flask import current_app, request, session, g, render_template
 from datetime import datetime

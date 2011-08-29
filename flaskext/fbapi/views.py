@@ -1,5 +1,5 @@
-from fbapi.api import oauth_login_url
-from fbapi.decorators import fbapi_authentication_required
+from flaskext.fbapi.api import oauth_login_url
+from flaskext.fbapi.decorators import fbapi_authentication_required
 
 from icanmatch import app
 
