@@ -1,0 +1,12 @@
+bootstrap.py
+/bin
+/develop-eggs
+/eggs
+/*.egg-info
+/parts
+/bootstrap.py
+/.installed.cfg
+/.project
+/.pydevproject
+*~
+*.pyc
