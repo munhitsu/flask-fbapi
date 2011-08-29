@@ -28,7 +28,7 @@ class AccessTokenStore(object):
     def _get_db(self):
         ctx = _request_ctx_stack.top
         if ctx is not None:
-            return ctx.sqlite3_db
+            return ctx.redis_fb
     
     def save(self, user_id, access_token, expires):
         redis_fb = self._get_db()
