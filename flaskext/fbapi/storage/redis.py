@@ -15,11 +15,13 @@ class AccessTokenStore(object):
 
     def __init__(self, app):
         # let's use app only to get cofig and not store it
-        self.config_redis_id = app.config["FBAPI_REDIS_DB"]
+        self.config_redis_host = app.get("FBAPI_REDIS_HOST", 'localhost')
+        self.config_redis_port = app.get("FBAPI_REDIS_PORT", 6379)
+        self.config_redis_db = app.get("FBAPI_REDIS_DB", 1)
 
     def open(self):
         ctx = _request_ctx_stack.top
-        ctx.redis_fb = redis.Redis(self.config_redis_id)
+        ctx.redis_fb = redis.Redis(host=self.config_redis_host, port=self.config_redis_port, db=self.config_redis_db)
     
     def close(self):
         ctx = _request_ctx_stack.top

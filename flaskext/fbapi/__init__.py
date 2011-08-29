@@ -7,7 +7,8 @@ required configuration in app.config
 # FBAPI_APP_SECRET
 # FBAPI_ACCESS_TOKEN_STORAGE - defaults to redis store
 # FBAPI_REDIS_DB - defaults to 1
-
+# FBAPI_REDIS_HOST - defaults to localhost
+# FBAPI_REDIS_PORT - defaults to 6379
 """
 
 from flaskext.fbapi.omnivore import FbApi

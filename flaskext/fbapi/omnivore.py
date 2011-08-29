@@ -23,7 +23,6 @@ class FbApi(object):
     def init_app(self, app):
         self.app = app
         self.app.config.setdefault('FBAPI_ACCESS_TOKEN_STORAGE', redis.AccessTokenStore)
-        self.app.config.setdefault('FBAPI_REDIS_DB', 1)
         assert self.app.config.has_key('FBAPI_SCOPE')
         assert self.app.config.has_key('FBAPI_APP_URI')
         assert self.app.config.has_key('FBAPI_APP_ID')
