@@ -1,5 +1,6 @@
 from flask import _request_ctx_stack
 from flaskext.fbapi.storage import redis
+from flask import _request_ctx_stack
 
 class FbApi(object):
     """
@@ -31,13 +32,15 @@ class FbApi(object):
 
 
     def initialize_access_token_store(self):
-        self.token_store = self.app.config['FBAPI_ACCESS_TOKEN_STORAGE'](self.app)
+        self.token_storage = self.app.config['FBAPI_ACCESS_TOKEN_STORAGE'](self.app)
 
 
     def before_request(self):
-        self.token_store.open()
+        ctx = _request_ctx_stack.top
+        ctx.token_storage = self.token_storage
+        self.token_storage.open()
 
     
     def teardown_request(self):
-        self.token_store.close()
-
+        self.token_storage.close()
+        del ctx.token_storage

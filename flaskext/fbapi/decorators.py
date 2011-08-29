@@ -2,6 +2,7 @@ from flaskext.fbapi.api import parse_signed_request, is_valid_signed_request, is
 from functools import wraps
 from flask import current_app, request, session, g, render_template
 from datetime import datetime
+from flask import _request_ctx_stack
 
 
 
@@ -9,6 +10,9 @@ def _handle_signed_request():
     """
     parses signed_request
     """
+    ctx = _request_ctx_stack.top
+    token_storage = ctx.token_storage
+
     signed_request = request.form.get('signed_request', None)
     if signed_request: #attached to request
         current_app.logger.debug("signed_request data: '%s'" % signed_request)
@@ -21,7 +25,7 @@ def _handle_signed_request():
             
             expires = fb_signed_request['expires'] #TODO: change date to delta seconds
             access_token = fb_signed_request['oauth_token']
-            current_app.config.get("FBAPI_ACCESS_TOKEN_STORAGE", AccessTokenStore).save(g.fb_user_id, access_token, expires)
+            token_storage.save(g.fb_user_id, access_token, expires)
             g.fb_access_token = access_token
 
             session.modified = True
@@ -29,7 +33,7 @@ def _handle_signed_request():
         elif is_deauthorize_signed_request(fb_signed_request):
             fb_user_id = fb_signed_request['user_id']
             current_app.logger.info("signed_request deauthorized user: %s" % fb_user_id)
-            current_app.config.get("FBAPI_ACCESS_TOKEN_STORAGE", AccessTokenStore).deauthorize(fb_user_id)
+            token_storage.deauthorize(fb_user_id)
             return oauth_redir_render() #output is ignored by facebook so sending oauth request is just a formality
 
         else:
@@ -68,7 +72,7 @@ def _handle_oauth_response():
         try:
             (access_token, expires) = fbapi_auth(code)
             current_app.logger.debug("fbapi_auth response (%s,%s)" % (access_token, expires))
-            current_app.config.get("FBAPI_ACCESS_TOKEN_STORAGE", AccessTokenStore).save(g.fb_user_id, access_token, expires)
+            token_storage.save(g.fb_user_id, access_token, expires)
             g.fb_access_token = access_token
             
         except Exception as e:
@@ -81,7 +85,7 @@ def _handle_storage_fallback():
     makes sure that we have access_token (I.e. using session used_id get one from Storage)
     """
     if not hasattr(g, "fb_access_token") or not g.fb_access_token:
-        current_app.config.get("FBAPI_ACCESS_TOKEN_STORAGE", AccessTokenStore).load(g.fb_user_id)
+        token_storage.load(g.fb_user_id)
         return
     
     if not g.fb_access_token:
