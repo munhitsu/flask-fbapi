@@ -44,6 +44,6 @@ class FbApi(object):
         self.token_storage.open()
 
     
-    def teardown_request(self):
+    def teardown_request(self, exception):
         self.token_storage.close()
         del ctx.token_storage
