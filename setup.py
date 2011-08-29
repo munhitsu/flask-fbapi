@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='Flask-FBAPI',
-    version='0.1.6',
+    version='0.1.7-alpha',
     url='http://github.com/munhitsu/flask-fbapi',
     license='BSD',
     author='Mateusz Lapsa-Malawski',
@@ -13,7 +13,7 @@ setup(
     long_description=__doc__,
     packages=['flaskext'],
     namespace_packages=['flaskext'],
-    zip_safe=True,
+    zip_safe=False,
     platforms='any',
     test_suite="nose.collector",
     #      package_dir={'': 'src'},
